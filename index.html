@@ -3,61 +3,391 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Page with Two Links</title>
-    <!-- Loading Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                },
-            },
+    <title>Structure of an Atom - Self-Assessment</title>
+    
+    <!-- All styles are embedded for Canvas LMS compatibility -->
+    <style>
+        /* --- General Styles --- */
+        * {
+            box-sizing: border-box;
         }
-    </script>
-</head>
-<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white font-sans antialiased">
-    <!-- Main container to center content -->
-    <div class="min-h-screen flex items-center justify-center p-4">
-        
-        <!-- Card component -->
-        <div class="bg-white dark:bg-gray-800 shadow-2xl rounded-2xl p-8 max-w-md w-full">
-            
-            <!-- Header -->
-            <h1 classs="text-2xl font-bold text-center mb-6">
-                My Links Page
-            </h1>
-            
-            <!-- Description -->
-            <p class="text-center text-gray-600 dark:text-gray-300 mb-8">
-                Here are two important links you might want to check out.
-            </p>
 
-            <!-- Links container -->
-            <div class="space-y-4">
-                
-                <!-- First Link -->
-                <a href="https://www.google.com" 
-                   target="_blank" 
-                   rel="noopener noreferrer"
-                   class="block w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold text-center py-3 px-5 rounded-lg shadow-md transition-transform transform hover:scale-105 duration-300 ease-in-out">
-                    Go to Google
-                </a>
-                
-                <!-- Second Link -->
-                <a href="https://www.openai.com" 
-                   target="_blank" 
-                   rel="noopener noreferrer"
-                   class="block w-full bg-gray-700 hover:bg-gray-600 text-white font-semibold text-center py-3 px-5 rounded-lg shadow-md transition-transform transform hover:scale-105 duration-300 ease-in-out">
-                    Learn about AI
-                </a>
-                
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            background-color: #f0f7ff; /* Friendly light blue background */
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 0 10px;
+        }
+
+        h1 {
+            color: #005a9c; /* Dark, friendly blue */
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .instructions {
+            font-size: 1.1em;
+            text-align: center;
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        /* --- Card Grid --- */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            justify-items: center;
+        }
+
+        /* --- Flip Card Mechanics --- */
+        .flip-card {
+            background-color: transparent;
+            width: 100%;
+            max-width: 320px;
+            height: 380px;
+            perspective: 1000px; /* Gives the 3D effect */
+            border-radius: 15px;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        /* This class is added by JavaScript to flip the card */
+        .flip-card.is-flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front,
+        .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden; /* Safari */
+            backface-visibility: hidden;
+            border-radius: 15px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* --- Card Front Styling --- */
+        .flip-card-front {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .question-number {
+            font-size: 0.9em;
+            font-weight: 700;
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+
+        .question-text {
+            font-size: 1.25em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            gap: 12px;
+        }
+
+        .option-btn {
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            background-color: #f0f0f0;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 500;
+            width: 100%;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        .option-btn:hover {
+            background-color: #e0e0e0;
+            transform: translateY(-2px);
+        }
+
+        /* --- Card Back (Feedback) Styling --- */
+        .flip-card-back {
+            color: white;
+            transform: rotateY(180deg);
+            padding: 30px;
+        }
+
+        /* Correct Answer Style */
+        .flip-card-back.correct {
+            background: linear-gradient(135deg, #28a745, #218838); /* Friendly green */
+        }
+
+        /* Incorrect Answer Style */
+        .flip-card-back.incorrect {
+            background: linear-gradient(135deg, #dc3545, #c82333); /* Friendly red */
+        }
+
+        .feedback-title {
+            font-size: 1.8em;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .feedback-text {
+            font-size: 1.1em;
+            line-height: 1.5;
+            margin-bottom: 25px;
+        }
+
+        .try-again-btn {
+            padding: 12px 25px;
+            background-color: #ffffff;
+            color: #333;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: transform 0.1s;
+        }
+
+        .try-again-btn:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Atom Structure Self-Assessment</h1>
+        <p class="instructions">Test your knowledge! Click an answer on the front of the card to see feedback on the back.</p>
+
+        <div class="card-grid">
+
+            <!-- Question 1 -->
+            <div class="flip-card" id="card-1">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <span class="question-number">Question 1</span>
+                        <h3 class="question-text">What particle determines the atom's identity (atomic number)?</h3>
+                        <div class="options-list">
+                            <button class="option-btn" onclick="handleAnswer('card-1', true, 'That\'s right! The number of protons (the Atomic Number) is unique to each element.')">
+                                Proton
+                            </button>
+                            <button class="option-btn" onclick="handleAnswer('card-1', false, 'Not quite. Neutrons affect the atom\'s mass and stability, but not its identity.')">
+                                Neutron
+                            </button>
+                            <button class="option-btn" onclick="handleAnswer('card-1', false, 'Try again. Electrons are involved in chemical bonding and determine the atom\'s charge.')">
+                                Electron
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flip-card-back">
+                        <h4 class="feedback-title">...</h4>
+                        <p class="feedback-text">...</p>
+                        <button class="try-again-btn" onclick="resetCard('card-1')">Try Again</button>
+                    </div>
+                </div>
             </div>
 
-        </div>
-        
-    </div>
+            <!-- Question 2 -->
+            <div class="flip-card" id="card-2">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <span class="question-number">Question 2</span>
+                        <h3 class="question-text">Which two particles are found in the atom's nucleus?</h3>
+                        <div class="options-list">
+                            <button class="option-btn" onclick="handleAnswer('card-2', false, 'Almost! Electrons orbit the nucleus; they are not inside it.')">
+                                Protons & Electrons
+                            </button>
+                            <button class="option-btn" onclick="handleAnswer('card-2', true, 'Correct! The nucleus is the dense center of the atom containing both protons and neutrons.')">
+                                Protons & Neutrons
+                            </button>
+                            <button class="option-btn" onclick="handleAnswer('card-2', false, 'Close! Neutrons are in the nucleus, but electrons orbit outside of it.')">
+                                Neutrons & Electrons
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flip-card-back">
+                        <h4 class="feedback-title">...</h4>
+                        <p class="feedback-text">...</p>
+                        <button class="try-again-btn" onclick="resetCard('card-2')">Try Again</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 3 -->
+            <div class="flip-card" id="card-3">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <span class="question-number">Question 3</span>
+                        <h3 class="question-text">An atom that GAINS an electron becomes a...</h3>
+                        <div class="options-list">
+                            <button class="option-btn" onclick="handleAnswer('card-3', false, 'Try again. Cations are positive ions, which are formed by *losing* electrons.')">
+                                Cation (Positive ion)
+                            </button>
+                            <button class="option-btn" onclick="handleAnswer('card-3', true, 'You got it! Gaining a negative electron gives the atom an overall negative charge, making it an Anion.')">
+                                Anion (Negative ion)
+                            </button>
+                            <button class="option-btn" onclick="handleAnswer('card-3', false, 'Not this one. Isotopes are related to the number of neutrons, not the charge from electrons.')">
+                                Isotope
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flip-card-back">
+                        <h4 class="feedback-title">...</h4>
+                        <p class="feedback-text">...</p>
+                        <button class="try-again-btn" onclick="resetCard('card-3')">Try Again</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 4 -->
+            <div class="flip-card" id="card-4">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <span class="question-number">Question 4</span>
+                        <h3 class="question-text">Isotopes are atoms of the same element with a different number of...</h3>
+                        <div class="options-list">
+                            <button class="option-btn" onclick="handleAnswer('card-4', false, 'Incorrect. If the number of protons were different, it would be a different element!')">
+                                Protons
+                            </button>
+                            <button class="option-btn" onclick="handleAnswer('card-4', false, 'Try again. The number of electrons determines the charge (making an ion), not the isotope.')">
+                                Electrons
+                            </button>
+                            <button class="option-btn" onclick="handleAnswer('card-4', true, 'Exactly! For example, Carbon-12 and Carbon-14 both have 6 protons, but C-14 has 8 neutrons while C-12 has 6.')">
+                                Neutrons
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flip-card-back">
+                        <h4 class="feedback-title">...</h4>
+                        <p class="feedback-text">...</p>
+                        <button class="try-again-btn" onclick="resetCard('card-4')">Try Again</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 5 -->
+            <div class="flip-card" id="card-5">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <span class="question-number">Question 5</span>
+                        <h3 class="question-text">Which electrons are involved in chemical bonding?</h3>
+                        <div class="options-list">
+                            <button class="option-btn" onclick="handleAnswer('card-5', true, 'Correct! Valence electrons are in the outermost shell and are responsible for an atom\'s chemical behavior.')">
+                                Valence electrons
+                            </button>
+                            <button class="option-btn" onclick="handleAnswer('card-5', false, 'Not quite. Only the electrons in the outermost shell (the valence shell) participate in bonding.')">
+                                All electrons
+                            </button>
+                            <button class="option-btn" onclick="handleAnswer('card-5', false, 'Incorrect. The inner shell electrons are held tightly to the nucleus and don\'t participate in bonding.')">
+                                Inner shell electrons
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flip-card-back">
+                        <h4 class="feedback-title">...</h4>
+                        <p class="feedback-text">...</p>
+                        <button class="try-again-btn" onclick="resetCard('card-5')">Try Again</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 6 -->
+            <div class="flip-card" id="card-6">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <span class="question-number">Question 6</span>
+                        <h3 class="question-text">What is the electrical charge of a neutron?</h3>
+                        <div class="options-list">
+                            <button class="option-btn" onclick="handleAnswer('card-6', false, 'That\'s the charge of a proton. Protons are positive.')">
+                                Positive
+                            </button>
+                            <button class="option-btn" onclick="handleAnswer('card-6', true, 'Yes! As the name suggests, neutrons are electrically neutral (they have no charge).')">
+                                Neutral
+                            </button>
+                            <button class="option-btn" onclick="handleAnswer('card-6', false, 'That\'s the charge of an electron. Electrons are negative.')">
+                                Negative
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flip-card-back">
+                        <h4 class="feedback-title">...</h4>
+                        <p class="feedback-text">...</p>
+                        <button class="try-again-btn" onclick="resetCard('card-6')">Try Again</button>
+                    </div>
+                </div>
+            </div>
+
+        </div> <!-- /card-grid -->
+    </div> <!-- /container -->
+
+    <!-- All JavaScript is embedded for Canvas LMS compatibility -->
+    <script>
+        /**
+         * Handles the answer click event for a card.
+         * @param {string} cardId - The ID of the flip-card element.
+         * @param {boolean} isCorrect - Whether the chosen answer is correct.
+         * @param {string} feedbackText - The specific feedback text to display.
+         */
+        function handleAnswer(cardId, isCorrect, feedbackText) {
+            const card = document.getElementById(cardId);
+            if (!card) return;
+
+            const cardBack = card.querySelector('.flip-card-back');
+            const feedbackTitleEl = cardBack.querySelector('.feedback-title');
+            const feedbackTextEl = cardBack.querySelector('.feedback-text');
+
+            // 1. Set feedback content
+            feedbackTitleEl.textContent = isCorrect ? 'Correct!' : 'Not Quite...';
+            feedbackTextEl.textContent = feedbackText;
+
+            // 2. Set feedback style (green/red)
+            cardBack.classList.remove('correct', 'incorrect');
+            if (isCorrect) {
+                cardBack.classList.add('correct');
+            } else {
+                cardBack.classList.add('incorrect');
+            }
+
+            // 3. Flip the card
+            card.classList.add('is-flipped');
+        }
+
+        /**
+         * Resets a card to its front-facing state.
+         * @param {string} cardId - The ID of the flip-card element.
+         */
+        function resetCard(cardId) {
+            const card = document.getElementById(cardId);
+            if (!card) return;
+
+            // Un-flip the card
+            card.classList.remove('is-flipped');
+        }
+    </script>
+
 </body>
 </html>
